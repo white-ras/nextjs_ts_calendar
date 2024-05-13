@@ -1,20 +1,25 @@
 import {
+  eachDayOfInterval,
   eachWeekOfInterval,
   endOfMonth,
-  startOfMonth,
-  getMonth,
-  eachDayOfInterval,
   endOfWeek,
   getDate,
+  getMonth,
+  isSameMonth,
+  isToday,
+  startOfMonth,
 } from 'date-fns'
 import { DAYS_LIST } from '@/constants/calendar'
 import { useEffect, useState } from 'react'
-import { tr } from 'date-fns/locale'
 
 export default function Home() {
   const today = new Date()
   const [dateList, setDateList] = useState<Date[][]>([])
 
+  const dateColor = (targetDate: Date, currentDate: Date): string => {
+    if (isToday(targetDate)) return 'bg-lime-800 text-white rounded-full'
+    return isSameMonth(targetDate, currentDate) ? 'text-black' : 'text-gray-300'
+  }
   useEffect(() => {
     const monthOfSundayList = eachWeekOfInterval({
       start: startOfMonth(today),
@@ -50,10 +55,15 @@ export default function Home() {
               <tr key={`week-${getDate(oneWeek[0])}`} className="mx-10">
                 {oneWeek.map((item) => (
                   <td
-                    key={`day-${getDate(item)}`}
+                    key={`day-${getDate(oneWeek[0])}`}
                     className="bg-white h-[10vh] border-2 border-solid border-lime-800"
                   >
-                    <span className="inline-block w-[20px] leading-[20px] text-center">
+                    <span
+                      className={`inline-block w-[20px] leading-[20px] text-center ${dateColor(
+                        item,
+                        today
+                      )}`}
+                    >
                       {getDate(item)}
                     </span>
                   </td>
