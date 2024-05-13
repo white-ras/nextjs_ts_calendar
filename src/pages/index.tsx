@@ -6,25 +6,46 @@ import {
   endOfMonth,
   endOfWeek,
   getMonth,
+  isSameDay,
   startOfMonth,
 } from 'date-fns'
 import { useEffect, useState } from 'react'
+import { DateList, Schedule } from '@/types/calendar'
+import { getScheduleList } from './api/calendar'
 
 export default function Home() {
   const today = new Date()
-  const [dateList, setDateList] = useState<Date[][]>([])
+  const [dateList, setDateList] = useState<DateList>([])
 
   useEffect(() => {
     const monthOfSundayList = eachWeekOfInterval({
       start: startOfMonth(today),
       end: endOfMonth(today),
     })
-    const newDateList: Date[][] = monthOfSundayList.map((date) => {
+    const newDateList: DateList = monthOfSundayList.map((date) => {
       return eachDayOfInterval({
         start: date,
         end: endOfWeek(date),
-      })
+      }).map((date) => ({ date, schedules: [] as Schedule[] }))
     })
+
+    const scheduleList = getScheduleList() // from API
+    // schedule:id,date,title,description
+    scheduleList.forEach((schedule) => {
+      const firstIndex = newDateList.findIndex((oneWeek) =>
+        oneWeek.some((item) => isSameDay(item.date, schedule.date))
+      )
+      if (firstIndex === -1) return
+      const secondIndex = newDateList[firstIndex].findIndex((item) =>
+        isSameDay(item.date, schedule.date)
+      )
+
+      newDateList[firstIndex][secondIndex].schedules = [
+        ...newDateList[firstIndex][secondIndex].schedules,
+        schedule,
+      ]
+    })
+
     setDateList(newDateList)
   }, [])
 
