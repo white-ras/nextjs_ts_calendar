@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import '@/styles/destyle.css'
+import '@/styles/output.css'
 
 import type { AppProps } from 'next/app'
 
