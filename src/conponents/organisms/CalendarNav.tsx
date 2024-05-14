@@ -1,13 +1,16 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { addMonths } from 'date-fns'
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa'
 import { PrimaryBtn } from '../atoms/PrimaryBtn'
+import { CreateScheduleModal } from './CreateScheduleModal'
 
 type PropsType = {
   setCurrentDate: Dispatch<SetStateAction<Date>>
 }
 
 export const CalendarNav = ({ setCurrentDate }: PropsType) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const closeModal = () => setIsOpen(false)
   const changeToday = () => setCurrentDate(new Date())
   const changePrevMonth = () =>
     setCurrentDate((prevDate) => addMonths(prevDate, -1))
@@ -29,6 +32,10 @@ export const CalendarNav = ({ setCurrentDate }: PropsType) => {
           onClick={changeNextMonth}
         />
       </div>
+      <PrimaryBtn size="sm" onClick={() => setIsOpen(true)}>
+        予定作成
+      </PrimaryBtn>
+      <CreateScheduleModal isOpen={isOpen} closeModal={closeModal} />
     </div>
   )
 }
