@@ -15,7 +15,7 @@ export default function Home() {
         <h1 className="font-bold text-3xl mb-5">{`${
           getMonth(currentDate) + 1
         }月`}</h1>
-        <CalendarNav />
+        <CalendarNav setCurrentDate={setCurrentDate} />
         <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
           <CalendarHeader />
           <CalendarBody currentDate={currentDate} dateList={dateList} />
