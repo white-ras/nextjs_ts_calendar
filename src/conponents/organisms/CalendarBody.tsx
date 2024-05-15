@@ -9,12 +9,14 @@ type PropsType = {
   currentDate: Date
   dateList: DateList
   deleteSchedule: (schedule: Schedule) => void
+  editSchedule: (schedule: Schedule) => void
 }
 
 export const CalendarBody = ({
   currentDate,
   dateList,
   deleteSchedule,
+  editSchedule,
 }: PropsType) => {
   const [selectedSchedule, setSelctedSchedule] = useState<Schedule | null>(null)
   const closeModal = () => setSelctedSchedule(null)
@@ -55,6 +57,7 @@ export const CalendarBody = ({
       <ScheduleDetailModal
         selectedSchedule={selectedSchedule}
         deleteSchedule={deleteSchedule}
+        editSchedule={editSchedule}
         closeModal={closeModal}
       />
     </>

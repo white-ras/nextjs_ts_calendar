@@ -7,6 +7,7 @@ type PropsType = {
   selectedSchedule: Schedule | null
   closeModal: () => void
   deleteSchedule: (schedule: Schedule) => void
+  editSchedule: (schedule: Schedule) => void
 }
 
 const customStyles = {
@@ -22,6 +23,7 @@ export const ScheduleDetailModal = ({
   selectedSchedule,
   closeModal,
   deleteSchedule,
+  editSchedule,
 }: PropsType) => {
   const handleDeleteSchedule = () => {
     const confirmationMessage: string = `${format(
@@ -40,6 +42,12 @@ export const ScheduleDetailModal = ({
     }
   }
 
+  const handleEditSchedule = () => {
+    alert('編集中')
+    editSchedule(selectedSchedule!)
+    closeModal()
+  }
+
   return (
     <Modal
       isOpen={!!selectedSchedule}
@@ -56,6 +64,9 @@ export const ScheduleDetailModal = ({
 
           <p>{selectedSchedule.description}</p>
           <div className="flex items-center text-white gap-4">
+            <PrimaryBtn size="sm" onClick={handleEditSchedule}>
+              編集
+            </PrimaryBtn>
             <PrimaryBtn size="sm" onClick={handleDeleteSchedule}>
               削除
             </PrimaryBtn>

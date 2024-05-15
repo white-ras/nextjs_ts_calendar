@@ -57,6 +57,10 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     setDateList(newDateList)
   }
 
+  const editSchedule = (editedSchedule: Schedule) => {
+    alert('編集した！')
+  }
+
   useEffect(() => {
     const monthOfSundayList = eachWeekOfInterval({
       start: startOfMonth(currentDate),
@@ -87,5 +91,6 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     dateList,
     addSchedule,
     deleteSchedule,
+    editSchedule,
   }
 }
