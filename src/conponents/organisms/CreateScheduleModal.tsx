@@ -1,11 +1,9 @@
 import Modal from 'react-modal'
-import { ChangeEvent, useState, FormEvent } from 'react'
-import { format } from 'date-fns'
 import { Input } from '../atoms/Input'
 import { PrimaryBtn } from '../atoms/PrimaryBtn'
-import { NewSchedule, Schedule } from '../../types/calendar'
+import { Schedule } from '../../types/calendar'
 import { Textarea } from '../atoms/Textarea'
-import { parse } from 'date-fns/parse'
+import { useCreateSchedule } from '@/hooks/useCreateSchedule'
 
 type PropsType = {
   isOpen: boolean
@@ -28,44 +26,9 @@ export const CreateScheduleModal = ({
   closeModal,
   addSchedule,
 }: PropsType) => {
-  const [newSchedule, setNewSchedule] = useState<NewSchedule>({
-    title: '',
-    date: format(new Date(), 'yyyy-MM-dd'),
-    description: '',
-  })
+  const { newSchedule, errorMessage, changeNewSchedule, handleCreateSchedule } =
+    useCreateSchedule({ closeModal, addSchedule })
 
-  const [errorMessage, setErrorMessage] = useState('')
-
-  const changeNewSchedule = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target
-    setNewSchedule({ ...newSchedule, [name]: value })
-  }
-
-  const handleCreateSchedule = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const { title, date, description } = newSchedule
-    if (title === '') {
-      setErrorMessage('タイトルを入力してください')
-      return
-    } else {
-      setErrorMessage('')
-    }
-    const schedule: Schedule = {
-      id: 100001,
-      title,
-      date: parse(date, 'yyyy-MM-dd', new Date()),
-      description: description,
-    }
-    addSchedule(schedule)
-    setNewSchedule({
-      title: '',
-      date: format(new Date(), 'yyyy-MM-dd'),
-      description: '',
-    })
-    closeModal()
-  }
   return (
     <Modal isOpen={isOpen} style={customStyles} onRequestClose={closeModal}>
       <div>
