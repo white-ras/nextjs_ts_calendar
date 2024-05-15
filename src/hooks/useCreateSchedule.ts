@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { format, parse } from 'date-fns'
 
-import { NewSchedule, Schedule } from '../types/calendar'
+import { NewSchedule, Schedule } from '@/types/calendar'
 
 const INIT_SCHEDULE: NewSchedule = {
   title: '',

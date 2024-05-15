@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 import { addMonths } from 'date-fns'
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa'
-import { PrimaryBtn } from '../atoms/PrimaryBtn'
+import { PrimaryBtn } from '@/conponents/atoms/PrimaryBtn'
 import { CreateScheduleModal } from './CreateScheduleModal'
-import { Schedule } from '../../types/calendar'
+import { Schedule } from '@/types/calendar'
 
 type PropsType = {
   setCurrentDate: Dispatch<SetStateAction<Date>>

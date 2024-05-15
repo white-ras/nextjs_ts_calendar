@@ -1,8 +1,8 @@
 import Modal from 'react-modal'
-import { Input } from '../atoms/Input'
-import { PrimaryBtn } from '../atoms/PrimaryBtn'
-import { Schedule } from '../../types/calendar'
-import { Textarea } from '../atoms/Textarea'
+import { Input } from '@/conponents/atoms/Input'
+import { PrimaryBtn } from '@/conponents/atoms/PrimaryBtn'
+import { Schedule } from '@/types/calendar'
+import { Textarea } from '@/conponents/atoms/Textarea'
 import { useCreateSchedule } from '@/hooks/useCreateSchedule'
 
 type PropsType = {
