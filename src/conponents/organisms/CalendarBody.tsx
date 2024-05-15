@@ -8,9 +8,14 @@ import { ScheduleDetailModal } from './ScheduleDetailModal'
 type PropsType = {
   currentDate: Date
   dateList: DateList
+  deleteSchedule: (schedule: Schedule) => void
 }
 
-export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
+export const CalendarBody = ({
+  currentDate,
+  dateList,
+  deleteSchedule,
+}: PropsType) => {
   const [selectedSchedule, setSelctedSchedule] = useState<Schedule | null>(null)
   const closeModal = () => setSelctedSchedule(null)
 
@@ -49,6 +54,7 @@ export const CalendarBody = ({ currentDate, dateList }: PropsType) => {
       </tbody>
       <ScheduleDetailModal
         selectedSchedule={selectedSchedule}
+        deleteSchedule={deleteSchedule}
         closeModal={closeModal}
       />
     </>

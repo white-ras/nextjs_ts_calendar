@@ -1,11 +1,12 @@
 import Modal from 'react-modal'
 import { Schedule } from '@/types/calendar'
 import { format } from 'date-fns'
-import { PrimaryBtn } from '../atoms/PrimaryBtn'
+import { PrimaryBtn } from '@/conponents/atoms/PrimaryBtn'
 
 type PropsType = {
   selectedSchedule: Schedule | null
   closeModal: () => void
+  deleteSchedule: (schedule: Schedule) => void
 }
 
 const customStyles = {
@@ -20,8 +21,9 @@ const customStyles = {
 export const ScheduleDetailModal = ({
   selectedSchedule,
   closeModal,
+  deleteSchedule,
 }: PropsType) => {
-  const deleteSchedule = () => {
+  const handleDeleteSchedule = () => {
     const confirmationMessage: string = `${format(
       selectedSchedule!.date,
       'yyyy年M月d日'
@@ -29,6 +31,7 @@ export const ScheduleDetailModal = ({
     const confirmDelete = window.confirm(confirmationMessage)
 
     if (confirmDelete) {
+      deleteSchedule(selectedSchedule!)
       alert('データが削除されました')
       closeModal()
     } else {
@@ -53,7 +56,7 @@ export const ScheduleDetailModal = ({
 
           <p>{selectedSchedule.description}</p>
           <div className="flex items-center text-white gap-4">
-            <PrimaryBtn size="sm" onClick={deleteSchedule}>
+            <PrimaryBtn size="sm" onClick={handleDeleteSchedule}>
               削除
             </PrimaryBtn>
           </div>

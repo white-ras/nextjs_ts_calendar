@@ -7,7 +7,9 @@ import { CalendarNav } from '@/conponents/organisms/CalendarNav'
 
 export default function Home() {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const { dateList, addSchedule } = useCalendar({ currentDate: currentDate })
+  const { dateList, addSchedule, deleteSchedule } = useCalendar({
+    currentDate: currentDate,
+  })
 
   return (
     <>
@@ -21,7 +23,11 @@ export default function Home() {
         />
         <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
           <CalendarHeader />
-          <CalendarBody currentDate={currentDate} dateList={dateList} />
+          <CalendarBody
+            currentDate={currentDate}
+            dateList={dateList}
+            deleteSchedule={deleteSchedule}
+          />
         </table>
       </div>
     </>
