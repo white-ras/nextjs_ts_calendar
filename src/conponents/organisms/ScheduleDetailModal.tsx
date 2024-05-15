@@ -7,7 +7,7 @@ type PropsType = {
   selectedSchedule: Schedule | null
   closeModal: () => void
   deleteSchedule: (schedule: Schedule) => void
-  editSchedule: (schedule: Schedule) => void
+  editSchedule: (schedule: Schedule, newTitle: string) => void
 }
 
 const customStyles = {
@@ -43,8 +43,9 @@ export const ScheduleDetailModal = ({
   }
 
   const handleEditSchedule = () => {
-    alert('編集中')
-    editSchedule(selectedSchedule!)
+    const newTitle: string = '新しい！'
+    alert(`${selectedSchedule!.title}を編集中`)
+    editSchedule(selectedSchedule!, newTitle)
     closeModal()
   }
 

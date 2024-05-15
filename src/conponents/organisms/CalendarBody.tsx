@@ -9,7 +9,7 @@ type PropsType = {
   currentDate: Date
   dateList: DateList
   deleteSchedule: (schedule: Schedule) => void
-  editSchedule: (schedule: Schedule) => void
+  editSchedule: (schedule: Schedule, newTitle: string) => void
 }
 
 export const CalendarBody = ({

@@ -57,8 +57,33 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     setDateList(newDateList)
   }
 
-  const editSchedule = (editedSchedule: Schedule) => {
-    alert('編集した！')
+  const editSchedule = (selectedSchedule: Schedule, newTitle: string) => {
+    const newSchedule: Schedule = {
+      id: selectedSchedule.id,
+      date: selectedSchedule.date,
+      title: newTitle,
+      description: selectedSchedule.description,
+    }
+
+    const newDateList: DateList = dateList.map((dateItem) => {
+      return dateItem.map((item) => {
+        return {
+          ...item,
+          schedules: item.schedules.filter(
+            (schedule) => schedule.id !== selectedSchedule.id
+          ),
+        }
+      })
+    })
+
+    const [firstIndex, secondIndex] = getDateListIndex(newDateList, newSchedule)
+    if (firstIndex === -1) return
+
+    newDateList[firstIndex][secondIndex].schedules = [
+      ...newDateList[firstIndex][secondIndex].schedules,
+      newSchedule,
+    ]
+    setDateList(newDateList)
   }
 
   useEffect(() => {
