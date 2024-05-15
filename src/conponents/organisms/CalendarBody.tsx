@@ -22,11 +22,11 @@ export const CalendarBody = ({
   return (
     <>
       <tbody>
-        {dateList.map((oneWeek) => (
-          <tr key={`week-${getDate(oneWeek[0].date)}`} className="mx-10">
-            {oneWeek.map((item) => (
+        {dateList.map((oneWeek, weekIndex) => (
+          <tr key={`week-${weekIndex}`} className="mx-10">
+            {oneWeek.map((item, dayIndex) => (
               <td
-                key={`day-${getDate(oneWeek[0].date)}`}
+                key={`day-${weekIndex}-${dayIndex}`}
                 className="bg-white h-[10vh] border-2 border-solid border-lime-800"
               >
                 <span

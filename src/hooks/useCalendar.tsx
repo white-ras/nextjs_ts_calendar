@@ -43,8 +43,18 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     setDateList(newDateList)
   }
 
-  const deleteSchedule = (schedule: Schedule) => {
-    alert('消した！')
+  const deleteSchedule = (deleteSchedule: Schedule) => {
+    const newDateList: DateList = dateList.map((dateItem) => {
+      return dateItem.map((item) => {
+        return {
+          ...item,
+          schedules: item.schedules.filter(
+            (schedule) => schedule.id !== deleteSchedule.id
+          ),
+        }
+      })
+    })
+    setDateList(newDateList)
   }
 
   useEffect(() => {
