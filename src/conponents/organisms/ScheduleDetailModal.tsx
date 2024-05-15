@@ -2,6 +2,8 @@ import Modal from 'react-modal'
 import { Schedule } from '@/types/calendar'
 import { format } from 'date-fns'
 import { PrimaryBtn } from '@/conponents/atoms/PrimaryBtn'
+import { useState } from 'react'
+import { Input } from '../atoms/Input'
 
 type PropsType = {
   selectedSchedule: Schedule | null
@@ -25,6 +27,15 @@ export const ScheduleDetailModal = ({
   deleteSchedule,
   editSchedule,
 }: PropsType) => {
+  const [isEditing, setIsEditing] = useState(false)
+  const [title, setTitle] = useState(
+    selectedSchedule ? selectedSchedule.title : ''
+  )
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+  }
+
   const handleDeleteSchedule = () => {
     const confirmationMessage: string = `${format(
       selectedSchedule!.date,
@@ -43,9 +54,13 @@ export const ScheduleDetailModal = ({
   }
 
   const handleEditSchedule = () => {
-    const newTitle: string = '新しい！'
-    alert(`${selectedSchedule!.title}を編集中`)
-    editSchedule(selectedSchedule!, newTitle)
+    editSchedule(selectedSchedule!, title)
+    setIsEditing(false)
+    closeModal()
+  }
+
+  const handleCancel = () => {
+    setIsEditing(false)
     closeModal()
   }
 
@@ -57,21 +72,45 @@ export const ScheduleDetailModal = ({
     >
       {selectedSchedule && (
         <div className="flex flex-col gap-8">
-          <h3 className="text-center text-3xl text-lime-800 font-bold pb-5">
-            {selectedSchedule.title}
-          </h3>
+          {isEditing ? (
+            <>
+              <Input onChange={handleChange} value={title} />
+              <p>{format(selectedSchedule.date, 'yyyy年M月d日')}</p>
 
-          <p>{format(selectedSchedule.date, 'yyyy年M月d日')}</p>
+              <p>{selectedSchedule.description}</p>
+              <div className="flex items-center text-white gap-4">
+                <PrimaryBtn size="sm" onClick={handleEditSchedule}>
+                  決定
+                </PrimaryBtn>
+                <PrimaryBtn size="sm" onClick={handleCancel}>
+                  キャンセル
+                </PrimaryBtn>
+              </div>
+            </>
+          ) : (
+            <>
+              <h3 className="text-center text-3xl text-lime-800 font-bold pb-5">
+                {selectedSchedule.title}
+              </h3>
+              <p>{format(selectedSchedule.date, 'yyyy年M月d日')}</p>
 
-          <p>{selectedSchedule.description}</p>
-          <div className="flex items-center text-white gap-4">
-            <PrimaryBtn size="sm" onClick={handleEditSchedule}>
-              編集
-            </PrimaryBtn>
-            <PrimaryBtn size="sm" onClick={handleDeleteSchedule}>
-              削除
-            </PrimaryBtn>
-          </div>
+              <p>{selectedSchedule.description}</p>
+              <div className="flex items-center text-white gap-4">
+                <PrimaryBtn
+                  size="sm"
+                  onClick={() => {
+                    setTitle(selectedSchedule ? selectedSchedule.title : '')
+                    setIsEditing(true)
+                  }}
+                >
+                  編集
+                </PrimaryBtn>
+                <PrimaryBtn size="sm" onClick={handleDeleteSchedule}>
+                  削除
+                </PrimaryBtn>
+              </div>
+            </>
+          )}
         </div>
       )}
     </Modal>
