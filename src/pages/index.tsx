@@ -7,7 +7,14 @@ import { CalendarNav } from '@/conponents/organisms/CalendarNav'
 
 export default function Home() {
   const [currentDate, setCurrentDate] = useState(new Date())
-  const { dateList, addSchedule, deleteSchedule, editSchedule } = useCalendar({
+  const [isWeekly, setIsWeekly] = useState(false)
+  const {
+    dateList,
+    addSchedule,
+    deleteSchedule,
+    editSchedule,
+    getWeekContainingDate,
+  } = useCalendar({
     currentDate: currentDate,
   })
 
@@ -20,6 +27,8 @@ export default function Home() {
         <CalendarNav
           setCurrentDate={setCurrentDate}
           addSchedule={addSchedule}
+          isWeekly={isWeekly}
+          setIsWeekly={setIsWeekly}
         />
         <table className="w-[80%] border-collapse border-2 border-solid border-lime-800 table-fixed">
           <CalendarHeader />
@@ -28,6 +37,8 @@ export default function Home() {
             dateList={dateList}
             deleteSchedule={deleteSchedule}
             editSchedule={editSchedule}
+            isWeekly={isWeekly}
+            getWeekContainingDate={getWeekContainingDate}
           />
         </table>
       </div>

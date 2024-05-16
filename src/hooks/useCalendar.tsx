@@ -4,6 +4,7 @@ import {
   endOfMonth,
   endOfWeek,
   isSameDay,
+  isSameWeek,
   startOfMonth,
 } from 'date-fns'
 import { useEffect, useState } from 'react'
@@ -112,10 +113,22 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     setDateList(newDateList)
   }, [currentDate])
 
+  const getWeekContainingDate = (dateList: DateList, currentDate: Date) => {
+    for (const week of dateList) {
+      for (const day of week) {
+        if (isSameWeek(day.date, currentDate)) {
+          return week
+        }
+      }
+    }
+    return null
+  }
+
   return {
     dateList,
     addSchedule,
     deleteSchedule,
     editSchedule,
+    getWeekContainingDate,
   }
 }

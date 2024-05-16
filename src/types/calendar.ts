@@ -10,6 +10,11 @@ export type DateList = {
   schedules: Schedule[]
 }[][]
 
+export type WeeklyDateList = {
+  date: Date
+  schedules: Schedule[]
+}[]
+
 export type NewSchedule = {
   title: string
   date: string
