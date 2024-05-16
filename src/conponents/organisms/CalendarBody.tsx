@@ -14,7 +14,7 @@ type PropsType = {
   getWeekContainingDate: (
     dateList: DateList,
     currentDate: Date
-  ) => WeeklyDateList
+  ) => WeeklyDateList | null
 }
 
 export const CalendarBody = ({

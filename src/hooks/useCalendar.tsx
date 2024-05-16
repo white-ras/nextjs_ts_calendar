@@ -8,7 +8,7 @@ import {
   startOfMonth,
 } from 'date-fns'
 import { useEffect, useState } from 'react'
-import { DateList, Schedule } from '@/types/calendar'
+import { DateList, Schedule, WeeklyDateList } from '@/types/calendar'
 import { getScheduleList } from '@/pages/api/calendar'
 
 type PropsType = {
@@ -113,7 +113,10 @@ export const useCalendar = ({ currentDate }: PropsType) => {
     setDateList(newDateList)
   }, [currentDate])
 
-  const getWeekContainingDate = (dateList: DateList, currentDate: Date) => {
+  const getWeekContainingDate = (
+    dateList: DateList,
+    currentDate: Date
+  ): WeeklyDateList | null => {
     for (const week of dateList) {
       for (const day of week) {
         if (isSameWeek(day.date, currentDate)) {
