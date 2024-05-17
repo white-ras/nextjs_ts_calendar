@@ -15,8 +15,6 @@ type PropsType = {
     dateList: DateList,
     currentDate: Date
   ) => WeeklyDateList | null
-  isEditing: boolean
-  setIsEditing: Dispatch<SetStateAction<boolean>>
 }
 
 export const CalendarBody = ({
