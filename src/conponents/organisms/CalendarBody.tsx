@@ -1,8 +1,8 @@
-import { getDate, isSameWeek } from 'date-fns'
+import { getDate } from 'date-fns'
 import { dateColor } from '@/libs/date'
 import { DateList, Schedule, WeeklyDateList } from '@/types/calendar'
 import { ScheduleBtn } from '@/conponents/atoms/ScheduleBtn'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { ScheduleDetailModal } from './ScheduleDetailModal'
 
 type PropsType = {
@@ -15,6 +15,8 @@ type PropsType = {
     dateList: DateList,
     currentDate: Date
   ) => WeeklyDateList | null
+  isEditing: boolean
+  setIsEditing: Dispatch<SetStateAction<boolean>>
 }
 
 export const CalendarBody = ({
@@ -26,19 +28,51 @@ export const CalendarBody = ({
   getWeekContainingDate,
 }: PropsType) => {
   const [selectedSchedule, setSelctedSchedule] = useState<Schedule | null>(null)
-  const closeModal = () => setSelctedSchedule(null)
+  const closeModal = () => {
+    setSelctedSchedule(null)
+    setIsEditing(false)
+  }
+  const [isEditing, setIsEditing] = useState(false)
   const week = getWeekContainingDate(dateList, currentDate)
 
   return (
     <>
       <tbody>
         {isWeekly ? (
-          <>
-            <tr key={`week-`} className="mx-10">
-              {week?.map((item, dayIndex) => (
+          <tr key={`week-`} className="mx-10">
+            {week?.map((item, dayIndex) => (
+              <td
+                key={`day-${dayIndex}`}
+                className="bg-white h-[60vh] border-2 border-solid border-lime-800"
+              >
+                <span
+                  className={`inline-block w-[20px] leading-[20px] text-center ${dateColor(
+                    item.date,
+                    currentDate
+                  )}`}
+                >
+                  {getDate(item.date)}
+                </span>
+                <div className="flex flex-col items-center gap-1 pb-2">
+                  {item.schedules.map((schedule) => (
+                    <ScheduleBtn
+                      key={schedule.id}
+                      onClick={() => setSelctedSchedule(schedule)}
+                    >
+                      {schedule.title}
+                    </ScheduleBtn>
+                  ))}
+                </div>
+              </td>
+            ))}
+          </tr>
+        ) : (
+          dateList.map((oneWeek, weekIndex) => (
+            <tr key={`week-${weekIndex}`} className="mx-10">
+              {oneWeek.map((item, dayIndex) => (
                 <td
-                  key={`day-${dayIndex}`}
-                  className="bg-white h-[60vh] border-2 border-solid border-lime-800"
+                  key={`day-${weekIndex}-${dayIndex}`}
+                  className="bg-white h-[10vh] border-2 border-solid border-lime-800"
                 >
                   <span
                     className={`inline-block w-[20px] leading-[20px] text-center ${dateColor(
@@ -61,39 +95,7 @@ export const CalendarBody = ({
                 </td>
               ))}
             </tr>
-          </>
-        ) : (
-          <>
-            {dateList.map((oneWeek, weekIndex) => (
-              <tr key={`week-${weekIndex}`} className="mx-10">
-                {oneWeek.map((item, dayIndex) => (
-                  <td
-                    key={`day-${weekIndex}-${dayIndex}`}
-                    className="bg-white h-[10vh] border-2 border-solid border-lime-800"
-                  >
-                    <span
-                      className={`inline-block w-[20px] leading-[20px] text-center ${dateColor(
-                        item.date,
-                        currentDate
-                      )}`}
-                    >
-                      {getDate(item.date)}
-                    </span>
-                    <div className="flex flex-col items-center gap-1 pb-2">
-                      {item.schedules.map((schedule) => (
-                        <ScheduleBtn
-                          key={schedule.id}
-                          onClick={() => setSelctedSchedule(schedule)}
-                        >
-                          {schedule.title}
-                        </ScheduleBtn>
-                      ))}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </>
+          ))
         )}
       </tbody>
       <ScheduleDetailModal
@@ -101,6 +103,8 @@ export const CalendarBody = ({
         deleteSchedule={deleteSchedule}
         editSchedule={editSchedule}
         closeModal={closeModal}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
     </>
   )

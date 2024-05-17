@@ -2,7 +2,7 @@ import Modal from 'react-modal'
 import { Schedule } from '@/types/calendar'
 import { format } from 'date-fns'
 import { PrimaryBtn } from '@/conponents/atoms/PrimaryBtn'
-import { useState } from 'react'
+import { Dispatch, useState, SetStateAction } from 'react'
 import { Input } from '../atoms/Input'
 
 type PropsType = {
@@ -10,6 +10,8 @@ type PropsType = {
   closeModal: () => void
   deleteSchedule: (schedule: Schedule) => void
   editSchedule: (schedule: Schedule, newTitle: string) => void
+  isEditing: boolean
+  setIsEditing: Dispatch<SetStateAction<boolean>>
 }
 
 const customStyles = {
@@ -26,8 +28,9 @@ export const ScheduleDetailModal = ({
   closeModal,
   deleteSchedule,
   editSchedule,
+  isEditing,
+  setIsEditing,
 }: PropsType) => {
-  const [isEditing, setIsEditing] = useState(false)
   const [title, setTitle] = useState(
     selectedSchedule ? selectedSchedule.title : ''
   )
